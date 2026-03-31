@@ -5,6 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="知域科技 · AI 驱动的智能专利预判。面向科研机构和科技企业，先做技术梳理、查新判断和 FTO 风险筛查，先看清，再投入。" />
   <title>知域科技 · 让专利判断更早、更快、更省钱</title>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.patentpro.net/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:locale"      content="zh_CN" />
+  <meta property="og:url"         content="https://www.patentpro.net/" />
+  <meta property="og:title"       content="知域科技 · 让专利判断更早、更快、更省钱" />
+  <meta property="og:description" content="AI 驱动的智能专利预判，面向科研机构和科技企业。先做技术梳理、查新判断和 FTO 风险筛查，先看清，再投入。" />
+  <meta property="og:image"       content="https://www.patentpro.net/og-cover.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name"   content="知域科技 PatentPro" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="知域科技 · 让专利判断更早、更快、更省钱" />
+  <meta name="twitter:description" content="AI 驱动的智能专利预判，面向科研机构和科技企业。先做技术梳理、查新判断和 FTO 风险筛查，先看清，再投入。" />
+  <meta name="twitter:image"       content="https://www.patentpro.net/og-cover.png" />
+
+  <!-- JSON-LD: Organization + WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.patentpro.net/#organization",
+        "name": "知域科技",
+        "alternateName": "PatentPro",
+        "url": "https://www.patentpro.net/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.patentpro.net/og-cover.png"
+        },
+        "description": "AI 驱动的智能专利预判服务，提供技术梳理、查新判断和 FTO 风险筛查。",
+        "areaServed": "CN",
+        "serviceType": ["专利查新", "FTO 风险筛查", "技术交底梳理"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.patentpro.net/#website",
+        "url": "https://www.patentpro.net/",
+        "name": "知域科技 PatentPro",
+        "publisher": { "@id": "https://www.patentpro.net/#organization" },
+        "inLanguage": "zh-CN"
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -1799,6 +1850,13 @@
      JAVASCRIPT
 ============================================================ -->
 <script>
+  /**
+   * 内测留言发到你邮箱：打开 https://web3forms.com 用收件邮箱注册，生成 Access Key 填入下方。
+   * 静态页无法隐藏密钥；公开仓库里可见，请在 Web3Forms 后台用限额等方式降低滥用风险。
+   */
+  const WEB3FORMS_ACCESS_KEY = '';
+  const WEB3FORMS_SUBJECT = '知域官网 · 内测微信号';
+
   /* ---------- Header scroll ---------- */
   const header = document.getElementById('header');
   window.addEventListener('scroll', () => {
@@ -1889,11 +1947,11 @@
   });
 
   /* ---------- Beta form submit (shared by page form + modal) ---------- */
-  function handleBetaSubmit(e, btnId, formId) {
-    e.preventDefault();
-    const btn  = document.getElementById(btnId);
-    const form = document.getElementById(formId);
+  const MODAL_SUBMIT_BTN_HTML = `
+        提交申请
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
+  function showBetaSuccess(btn, formId) {
     btn.disabled = true;
     btn.innerHTML = `
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
@@ -1901,12 +1959,55 @@
       </svg>
       已提交，稍后联系你
     `;
-    btn.style.background   = '#10B981';
-    btn.style.boxShadow    = '0 8px 28px rgba(16,185,129,0.3)';
+    btn.style.background = '#10B981';
+    btn.style.boxShadow = '0 8px 28px rgba(16,185,129,0.3)';
+    if (formId === 'modalForm') setTimeout(() => closeModal(), 1800);
+  }
 
-    /* If submitted from modal, close it after short delay */
-    if (formId === 'modalForm') {
-      setTimeout(() => closeModal(), 1800);
+  function resetBetaButton(btn, btnId) {
+    btn.disabled = false;
+    btn.style.background = '';
+    btn.style.boxShadow = '';
+    if (btnId === 'betaBtn') btn.textContent = '申请试用';
+    else btn.innerHTML = MODAL_SUBMIT_BTN_HTML;
+  }
+
+  async function handleBetaSubmit(e, btnId, formId) {
+    e.preventDefault();
+    const btn = document.getElementById(btnId);
+    const inputId = formId === 'betaForm' ? 'betaWechat' : 'modalWechat';
+    const wechat = (document.getElementById(inputId)?.value || '').trim();
+    if (!wechat) return;
+
+    if (!WEB3FORMS_ACCESS_KEY) {
+      console.warn('WEB3FORMS_ACCESS_KEY 未配置，邮件不会发出。见 index.html 顶部说明。');
+      showBetaSuccess(btn, formId);
+      return;
+    }
+
+    btn.disabled = true;
+    const busyLabel = formId === 'modalForm' ? '提交中…' : '提交中…';
+    if (btnId === 'betaBtn') btn.textContent = busyLabel;
+    else btn.textContent = busyLabel;
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: WEB3FORMS_SUBJECT,
+          from_name: '官网内测表单',
+          message: `微信号：${wechat}\n来源：www.patentpro.net\n时间：${new Date().toISOString()}`,
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || 'Web3Forms 拒绝提交');
+      showBetaSuccess(btn, formId);
+    } catch (err) {
+      console.error(err);
+      resetBetaButton(btn, btnId);
+      alert('提交失败，请稍后重试，或通过页面底部联系方式直接找到我们。');
     }
   }
 </script>

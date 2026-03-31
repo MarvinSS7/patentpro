@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="知域科技 · AI 驱动的智能专利预判。面向科研机构和科技企业，先做技术梳理、查新判断和 FTO 风险筛查，先看清，再投入。" />
+  <title>知域科技 · 让专利判断更早、更快、更省钱</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & VARIABLES
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:          #0F172A;
+      --dark-2:        #1E293B;
+      --dark-3:        #334155;
+      --accent:        #4361EE;
+      --accent-light:  #6C8AFF;
+      --accent-dark:   #2D4BD4;
+      --green:         #10B981;
+      --amber:         #F59E0B;
+      --red:           #EF4444;
+      --text:          #0F172A;
+      --text-2:        #4B5563;
+      --text-3:        #94A3B8;
+      --bg:            #F5F7FF;
+      --bg-alt:        #FFFFFF;
+      --bg-tint:       #EEF2FF;
+      --border:        #E2E8F0;
+      --white:         #FFFFFF;
+      --font:          'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      --shadow-sm:     0 1px 4px rgba(67,97,238,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md:     0 4px 20px rgba(67,97,238,0.1), 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-lg:     0 12px 48px rgba(67,97,238,0.12);
+      --r-sm:          8px;
+      --r-md:          14px;
+      --r-lg:          22px;
+      --max-w:         1180px;
+      --nav-h:         68px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; }
+    h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+    button { font-family: var(--font); }
+
+    /* ============================================================
+       LAYOUT UTILITIES
+    ============================================================ */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    .section { padding: 96px 0; }
+    .section-alt { background: var(--bg-alt); }
+    .section-dark { background: var(--dark); }
+
+    .section-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 3.8vw, 44px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .section-title.white { color: var(--white); }
+
+    .section-subtitle {
+      font-size: 17px;
+      color: var(--text-2);
+      max-width: 580px;
+      line-height: 1.75;
+    }
+    .section-subtitle.muted { color: rgba(255,255,255,0.5); }
+
+    .section-header { margin-bottom: 60px; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-label,
+    .section-header.center .section-subtitle { margin-left: auto; margin-right: auto; }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--r-sm);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(67,97,238,0.35);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.38);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.7);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.14);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.14); }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(67,97,238,0.08);
+      z-index: 1000;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .header.scrolled {
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 4px 24px rgba(67,97,238,0.1);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      gap: 16px;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-text-wrap { display: flex; flex-direction: column; }
+    .logo-text { font-size: 17px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+    .logo-sub  { font-size: 11px; color: var(--text-3); letter-spacing: 0.04em; }
+
+    /* Desktop Nav */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex: 1;
+      justify-content: center;
+    }
+    .nav-link {
+      padding: 8px 13px;
+      color: var(--text-2);
+      font-size: 14px; font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+    .nav-link:hover { color: var(--accent); background: var(--bg-tint); }
+
+    .header-cta { padding: 9px 20px; font-size: 14px; flex-shrink: 0; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      border: none; background: none;
+      flex-shrink: 0;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.28s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile Nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(16px);
+      padding: 12px 20px 20px;
+      border-bottom: 1px solid rgba(67,97,238,0.08);
+      z-index: 999;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav .nav-link { padding: 13px 16px; font-size: 15px; }
+    .mobile-nav .btn-primary { margin-top: 8px; justify-content: center; }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      background: var(--white);
+      padding: calc(var(--nav-h) + 88px) 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 55% at 5% 20%, rgba(67,97,238,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(108,138,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 110%, rgba(67,97,238,0.04) 0%, transparent 70%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(67,97,238,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(67,97,238,0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+
+    .hero-inner { position: relative; max-width: 740px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--bg-tint);
+      border: 1px solid rgba(67,97,238,0.2);
+      border-radius: 100px;
+      padding: 7px 18px;
+      margin-bottom: 28px;
+    }
+    .hero-badge-pulse {
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2.4s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.82); }
+    }
+    .hero-badge-text { font-size: 13px; color: var(--accent); font-weight: 600; }
+
+    .hero-title {
+      font-size: clamp(38px, 6.5vw, 70px);
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.08;
+      margin-bottom: 24px;
+      letter-spacing: -0.035em;
+    }
+    .hero-title .hl {
+      background: linear-gradient(130deg, #4361EE 0%, #6C8AFF 50%, #34D399 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(15px, 2vw, 19px);
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+    .hero-actions .btn-primary  { font-size: 16px; padding: 16px 34px; }
+    .hero-actions .btn-secondary {
+      font-size: 16px; padding: 16px 34px;
+      color: var(--text); border-color: var(--border);
+      background: var(--white);
+    }
+    .hero-actions .btn-secondary:hover {
+      background: var(--bg-tint); border-color: var(--accent); color: var(--accent);
+    }
+
+    .hero-feats {
+      display: flex; gap: 24px; flex-wrap: wrap;
+    }
+    .hero-feat {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13.5px; color: var(--text-2);
+    }
+    .hero-feat-check {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(16,185,129,0.14);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       PAIN POINTS
+    ============================================================ */
+    .pain-section { background: var(--bg-tint); padding: 96px 0; }
+
+    .pain-heading {
+      font-size: clamp(28px, 4.2vw, 50px);
+      font-weight: 800; color: var(--text); line-height: 1.14;
+      margin-bottom: 60px;
+    }
+
+    .pain-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 22px;
+    }
+    .pain-card {
+      background: var(--white);
+      border: 1px solid rgba(67,97,238,0.1);
+      border-radius: var(--r-md);
+      padding: 32px;
+      transition: all 0.22s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .pain-card:hover {
+      background: var(--white);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .pain-num {
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 14px;
+    }
+    .pain-title { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 10px; line-height: 1.3; }
+    .pain-desc  { font-size: 14.5px; color: var(--text-2); line-height: 1.72; }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+    }
+    .svc-card {
+      background: var(--white);
+      border-radius: var(--r-md);
+      padding: 36px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.24s ease;
+      display: flex; flex-direction: column;
+    }
+    .svc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent);
+    }
+    .svc-icon {
+      width: 52px; height: 52px; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+    }
+    .svc-icon-blue   { background: rgba(79,110,247,0.1); }
+    .svc-icon-green  { background: rgba(16,185,129,0.1); }
+    .svc-icon-amber  { background: rgba(245,158,11,0.1); }
+
+    .svc-title { font-size: 21px; font-weight: 700; margin-bottom: 10px; }
+    .svc-desc  { font-size: 14.5px; color: var(--text-2); line-height: 1.72; margin-bottom: 22px; flex: 1; }
+
+    .svc-delivers-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;
+    }
+    .svc-deliver {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13.5px; color: var(--text-2); margin-bottom: 5px;
+    }
+    .svc-deliver-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .svc-delivers { margin-bottom: 24px; }
+
+    .svc-warning {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.22);
+      border-radius: 6px;
+      padding: 9px 13px;
+      font-size: 12px;
+      color: #92400E;
+      margin-bottom: 16px;
+    }
+
+    /* ============================================================
+       COST
+    ============================================================ */
+    .cost-section { background: #F0F4FF; padding: 96px 0; }
+
+    .cost-heading {
+      font-size: clamp(28px, 4.2vw, 50px);
+      font-weight: 800; color: var(--text); line-height: 1.14;
+      margin-bottom: 14px;
+    }
+    .cost-sub {
+      font-size: 17px; color: var(--text-2);
+      max-width: 540px; line-height: 1.72; margin-bottom: 60px;
+    }
+
+    .cost-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 22px;
+    }
+    .cost-card {
+      background: var(--white);
+      border: 1px solid rgba(67,97,238,0.1);
+      border-radius: var(--r-md);
+      padding: 36px 30px;
+      transition: all 0.22s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .cost-card:hover {
+      background: var(--white);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .cost-num  { font-size: 42px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 12px; }
+    .cost-ctitle { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .cost-cdesc  { font-size: 14.5px; color: var(--text-2); line-height: 1.72; }
+
+    /* ============================================================
+       RESULT MOCK
+    ============================================================ */
+    .result-section { background: var(--bg); }
+
+    .result-mock {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      margin-top: 48px;
+    }
+    .mock-header {
+      background: #1E293B;
+      padding: 18px 26px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .mock-dots { display: flex; gap: 6px; }
+    .mock-dot  { width: 10px; height: 10px; border-radius: 50%; }
+    .d-r { background: #F87171; }
+    .d-y { background: #FBBF24; }
+    .d-g { background: #34D399; }
+    .mock-label { font-size: 13px; color: rgba(255,255,255,0.45); }
+    .mock-badge {
+      margin-left: auto;
+      background: rgba(79,110,247,0.22);
+      color: #818CF8;
+      font-size: 11px; font-weight: 600;
+      padding: 4px 11px; border-radius: 100px;
+    }
+
+    .mock-body { padding: 30px 26px; }
+    .mock-meta {
+      display: flex; flex-wrap: wrap; gap: 20px;
+      padding-bottom: 18px; margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mock-meta-item { font-size: 13px; color: var(--text-2); }
+    .mock-meta-item strong { color: var(--text); }
+
+    .result-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 18px;
+    }
+    .r-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 18px;
+    }
+    .r-card-label {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;
+    }
+    .r-card-text { font-size: 13.5px; color: var(--text-2); line-height: 1.65; }
+    .r-tag {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 3px 9px; border-radius: 4px; margin-top: 9px;
+    }
+    .tag-ok      { background: rgba(16,185,129,0.1); color: #059669; }
+    .tag-warn    { background: rgba(245,158,11,0.1);  color: #B45309; }
+    .tag-risk    { background: rgba(239,68,68,0.1);   color: #DC2626; }
+
+    .mock-footer {
+      padding: 18px 26px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      flex-wrap: wrap;
+    }
+    .mock-footer-text { font-size: 12.5px; color: var(--text-2); }
+
+    /* ============================================================
+       AUDIENCE
+    ============================================================ */
+    .audience-grid {
+      display: grid; grid-template-columns: repeat(2,1fr); gap: 22px;
+    }
+    .aud-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 28px 30px;
+      display: flex; gap: 18px;
+      transition: all 0.22s ease;
+    }
+    .aud-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .aud-avatar {
+      width: 50px; height: 50px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .av-1 { background: rgba(79,110,247,0.1); }
+    .av-2 { background: rgba(16,185,129,0.1); }
+    .av-3 { background: rgba(245,158,11,0.1); }
+    .av-4 { background: rgba(239,68,68,0.1);  }
+
+    .aud-role  { font-size: 17px; font-weight: 700; margin-bottom: 7px; }
+    .aud-pain  { font-size: 14px; color: var(--text-2); line-height: 1.65; }
+
+    /* ============================================================
+       PROCESS
+    ============================================================ */
+    .process-section { background: var(--bg-alt); }
+
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 0; position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute; z-index: 0;
+      top: 24px;
+      left: calc(12.5% + 28px);
+      right: calc(12.5% + 28px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      opacity: 0.25;
+    }
+    .process-step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 0 14px; position: relative;
+    }
+    .ps-num {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: var(--accent); color: var(--white);
+      font-size: 19px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px; position: relative; z-index: 1;
+      box-shadow: 0 0 0 7px rgba(79,110,247,0.12);
+    }
+    .ps-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .ps-desc  { font-size: 13.5px; color: var(--text-2); line-height: 1.65; }
+
+    /* ============================================================
+       TRUST & BOUNDARY
+    ============================================================ */
+    .trust-section { background: var(--bg-alt); }
+
+    .trust-items-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .trust-item-card {
+      background: var(--bg);
+      border: 1px solid rgba(67,97,238,0.08);
+      border-radius: var(--r-md);
+      padding: 28px 24px;
+      transition: all 0.22s ease;
+    }
+    .trust-item-card:hover {
+      border-color: rgba(16,185,129,0.3);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .tic-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .tic-desc  { font-size: 13.5px; color: var(--text-2); line-height: 1.65; }
+
+    .trust-item {
+      display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px;
+    }
+    .ti-icon {
+      border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ti-icon.check { background: rgba(16,185,129,0.1); }
+    .ti-icon.cross { background: rgba(239,68,68,0.1); }
+    .ti-text { font-size: 14.5px; color: var(--text-2); line-height: 1.65; }
+
+    /* ============================================================
+       EXAMPLES
+    ============================================================ */
+    .examples-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 22px;
+    }
+    .ex-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 30px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: all 0.22s ease;
+    }
+    .ex-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .ex-tag {
+      display: inline-block; font-size: 11.5px; font-weight: 600;
+      padding: 4px 12px; border-radius: 100px;
+      background: rgba(79,110,247,0.1); color: var(--accent);
+    }
+    .ex-title { font-size: 17px; font-weight: 700; }
+    .ex-desc  { font-size: 13.5px; color: var(--text-2); line-height: 1.68; flex: 1; }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+    .faq-section { background: var(--bg-alt); }
+
+    .faq-list { max-width: 760px; margin: 0 auto; }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 22px; cursor: pointer; gap: 16px;
+      transition: background 0.15s ease;
+      user-select: none;
+    }
+    .faq-q:hover { background: var(--bg); }
+    .faq-q-text { font-size: 15.5px; font-weight: 600; color: var(--text); }
+    .faq-ico {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.22s ease, background 0.22s ease;
+    }
+    .faq-item.open .faq-ico {
+      transform: rotate(45deg);
+      background: var(--accent);
+    }
+    .faq-item.open .faq-ico svg { stroke: white; }
+
+    .faq-a {
+      display: none;
+      padding: 0 22px 22px;
+      font-size: 14.5px; color: var(--text-2); line-height: 1.78;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-a p + p { margin-top: 9px; }
+    .faq-a .faq-conclusion { font-weight: 600; color: var(--text); }
+    .faq-a .faq-boundary {
+      font-size: 12.5px; color: var(--text-3); margin-top: 10px;
+      padding-top: 10px; border-top: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       BETA BANNER
+    ============================================================ */
+    .submit-section {
+      background: linear-gradient(135deg, #1E2F6B 0%, #0F172A 100%);
+      padding: 72px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-section::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(67,97,238,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 50%, rgba(108,138,255,0.1) 0%, transparent 60%);
+    }
+
+    .beta-banner-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .beta-banner-left { flex: 1; }
+
+    .beta-banner-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(245,158,11,0.15);
+      border: 1px solid rgba(245,158,11,0.3);
+      border-radius: 100px;
+      padding: 5px 14px; margin-bottom: 18px;
+    }
+    .beta-banner-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #FBBF24; animation: pulse 2.4s infinite;
+    }
+    .beta-banner-badge-text { font-size: 12.5px; font-weight: 600; color: #FCD34D; }
+
+    .beta-banner-title {
+      font-size: clamp(24px, 3.5vw, 40px);
+      font-weight: 800; color: var(--white);
+      line-height: 1.15; margin-bottom: 12px;
+      letter-spacing: -0.025em;
+    }
+    .beta-banner-sub {
+      font-size: 16px; color: rgba(255,255,255,0.55);
+      line-height: 1.7; max-width: 480px;
+    }
+
+    .beta-banner-right {
+      flex-shrink: 0;
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 10px;
+    }
+
+    .beta-banner-stats {
+      display: flex; gap: 28px; margin-bottom: 4px;
+    }
+    .beta-stat {
+      text-align: center;
+    }
+    .beta-stat-num {
+      font-size: 22px; font-weight: 800; color: var(--white);
+      line-height: 1; margin-bottom: 4px;
+    }
+    .beta-stat-label {
+      font-size: 11px; color: rgba(255,255,255,0.45);
+      font-weight: 500; letter-spacing: 0.04em;
+    }
+
+    .btn-beta-banner {
+      font-size: 16px; padding: 16px 36px;
+      box-shadow: 0 8px 32px rgba(67,97,238,0.5);
+    }
+    .beta-banner-note {
+      font-size: 12px; color: rgba(255,255,255,0.35);
+    }
+
+    .beta-input-wrap {
+      display: flex; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .beta-input {
+      flex: 1; padding: 14px 16px;
+      border: 1px solid var(--border); border-radius: var(--r-sm);
+      font-family: var(--font); font-size: 15px; color: var(--text);
+      transition: border-color 0.15s ease; background: var(--white);
+    }
+    .beta-input:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(67,97,238,0.1);
+    }
+    .beta-input::placeholder { color: var(--text-3); }
+    .beta-note { font-size: 12px; color: var(--text-3); line-height: 1.6; }
+
+    /* ============================================================
+       STICKY BOTTOM BANNER
+    ============================================================ */
+    .sticky-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 900;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sticky-bar.visible { transform: translateY(0); }
+
+    .sticky-bar-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #FBBF24; animation: pulse 2.4s infinite; flex-shrink: 0;
+    }
+    .sticky-bar-text {
+      font-size: 14px; color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+    .sticky-bar-text strong { color: var(--white); font-weight: 600; }
+    .sticky-bar-btn {
+      padding: 9px 22px; font-size: 14px;
+      border-radius: 100px; flex-shrink: 0;
+    }
+
+    @media (max-width: 480px) {
+      .sticky-bar { padding: 12px 16px; gap: 12px; }
+      .sticky-bar-text { font-size: 13px; }
+      .sticky-bar-text .hide-mobile { display: none; }
+    }
+
+    /* ============================================================
+       TRIAL MODAL
+    ============================================================ */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(15,23,42,0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1; pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 40px 36px;
+      width: 100%; max-width: 440px;
+      box-shadow: 0 24px 80px rgba(15,23,42,0.2);
+      position: relative;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.28s cubic-bezier(0.34,1.2,0.64,1);
+    }
+    .modal-overlay.open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-3); transition: all 0.15s ease;
+    }
+    .modal-close:hover { background: var(--border); color: var(--text); }
+
+    .modal-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.22);
+      border-radius: 100px; padding: 4px 12px;
+      margin-bottom: 16px;
+    }
+    .modal-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #F59E0B; animation: pulse 2.4s infinite; }
+    .modal-badge-text { font-size: 12px; font-weight: 600; color: #B45309; }
+
+    .modal-title {
+      font-size: 22px; font-weight: 800;
+      color: var(--text); line-height: 1.25;
+      margin-bottom: 8px; letter-spacing: -0.02em;
+    }
+    .modal-sub {
+      font-size: 14px; color: var(--text-2);
+      line-height: 1.65; margin-bottom: 24px;
+    }
+
+    .modal-input-wrap {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .modal-input {
+      width: 100%; padding: 13px 15px;
+      border: 1px solid var(--border); border-radius: var(--r-sm);
+      font-family: var(--font); font-size: 15px; color: var(--text);
+      transition: border-color 0.15s ease; background: var(--white);
+    }
+    .modal-input:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(67,97,238,0.1);
+    }
+    .modal-input::placeholder { color: var(--text-3); }
+
+    .modal-note { font-size: 12px; color: var(--text-3); line-height: 1.6; }
+
+    .btn-modal-submit {
+      width: 100%; justify-content: center;
+      font-size: 15px; padding: 15px; margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .fab { bottom: 20px; right: 16px; padding: 12px 18px; font-size: 13.5px; }
+      .modal-card { padding: 32px 24px; }
+      .beta-form { padding: 28px 22px; }
+      .beta-input-wrap { flex-direction: column; }
+    }
+
+    /* ============================================================
+       BOTTOM CTA
+    ============================================================ */
+    .bottom-cta {
+      background: linear-gradient(135deg, var(--bg-tint) 0%, #E0E7FF 100%);
+      text-align: center; padding: 96px 0;
+      border-top: 1px solid rgba(67,97,238,0.1);
+    }
+    .bottom-cta-title {
+      font-size: clamp(28px, 5.5vw, 56px);
+      font-weight: 900; color: var(--text);
+      line-height: 1.12; margin-bottom: 18px;
+      letter-spacing: -0.035em;
+    }
+    .bottom-cta-sub {
+      font-size: 17px; color: var(--text-2);
+      margin-bottom: 40px; line-height: 1.72;
+    }
+    .bottom-cta-actions {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .bottom-cta-actions .btn { font-size: 16px; padding: 16px 38px; }
+    .bottom-cta .btn-ghost {
+      background: var(--white);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .bottom-cta .btn-ghost:hover {
+      background: var(--text);
+      color: var(--white);
+      border-color: var(--text);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      background: #0D1526; padding: 36px 0 56px;
+      border-top: none;
+    }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    }
+    .footer-brand { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .footer-copy  { font-size: 12.5px; color: rgba(255,255,255,0.3); }
+    .footer-disclaimer {
+      font-size: 12px; color: rgba(255,255,255,0.28);
+      max-width: 440px; line-height: 1.65; text-align: right;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    .fade-up {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    .fade-up:nth-child(2) { transition-delay: 0.08s; }
+    .fade-up:nth-child(3) { transition-delay: 0.16s; }
+    .fade-up:nth-child(4) { transition-delay: 0.24s; }
+
+    /* ============================================================
+       RESPONSIVE — TABLET  (≤1024px)
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .result-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
+    /* ============================================================
+       RESPONSIVE — MOBILE  (≤768px)
+    ============================================================ */
+    @media (max-width: 768px) {
+      :root { --nav-h: 60px; }
+
+      .container { padding: 0 16px; }
+      .section { padding: 64px 0; }
+
+      /* Header */
+      .nav, .header-cta { display: none; }
+      .hamburger { display: flex; }
+
+      /* Hero */
+      .hero { padding: calc(var(--nav-h) + 52px) 0 72px; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .hero-feats { flex-direction: column; gap: 10px; }
+
+      /* Grids → 1 col */
+      .pain-grid,
+      .services-grid,
+      .cost-grid,
+      .result-grid,
+      .audience-grid,
+      .examples-grid { grid-template-columns: 1fr; }
+
+      /* Process → vertical */
+      .process-steps { grid-template-columns: 1fr; gap: 28px; }
+      .process-steps::before { display: none; }
+      .process-step { flex-direction: row; text-align: left; gap: 16px; align-items: flex-start; padding: 0; }
+      .ps-num { margin-bottom: 0; flex-shrink: 0; }
+
+      /* Trust */
+      .trust-grid { grid-template-columns: 1fr; }
+      .trust-items-grid { grid-template-columns: repeat(2, 1fr); }
+
+      /* Beta banner */
+      .beta-banner-inner { flex-direction: column; align-items: flex-start; gap: 32px; }
+      .beta-banner-right { align-items: flex-start; width: 100%; }
+      .beta-banner-stats { gap: 20px; }
+      .btn-beta-banner   { width: 100%; justify-content: center; }
+
+      /* Footer */
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-disclaimer { text-align: center; }
+
+      /* Mock */
+      .mock-footer { flex-direction: column; align-items: flex-start; }
+      .mock-meta   { flex-direction: column; gap: 6px; }
+    }
+
+    /* ============================================================
+       RESPONSIVE — SMALL MOBILE  (≤480px)
+    ============================================================ */
+    @media (max-width: 480px) {
+      .hero-title { font-size: 34px; }
+      .bottom-cta-actions { flex-direction: column; align-items: center; }
+      .bottom-cta-actions .btn { width: 100%; max-width: 320px; justify-content: center; }
+      .trust-items-grid { grid-template-columns: 1fr; }
+      .beta-banner-stats { flex-wrap: wrap; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header-inner">
+
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg width="19" height="19" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2L3 6V14L10 18L17 14V6L10 2Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M10 2V18M3 6L17 14M17 6L3 14" stroke="white" stroke-width="1.3" stroke-opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-text">知域科技</span>
+          <span class="logo-sub">PatentPro</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="#services"  class="nav-link">技术交底梳理</a>
+        <a href="#services"  class="nav-link">查新判断</a>
+        <a href="#services"  class="nav-link">FTO 风险筛查</a>
+        <a href="#examples"  class="nav-link">样例结果</a>
+        <a href="#faq"       class="nav-link">FAQ</a>
+      </nav>
+
+      <a href="#submit" class="btn btn-primary header-cta">申请试用</a>
+
+      <button class="hamburger" id="hamburger" aria-label="打开菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#services"  class="nav-link" onclick="closeMNav()">技术交底梳理</a>
+  <a href="#services"  class="nav-link" onclick="closeMNav()">查新判断</a>
+  <a href="#services"  class="nav-link" onclick="closeMNav()">FTO 风险筛查</a>
+  <a href="#examples"  class="nav-link" onclick="closeMNav()">样例结果</a>
+  <a href="#faq"       class="nav-link" onclick="closeMNav()">FAQ</a>
+  <a href="#submit"    class="btn btn-primary" onclick="closeMNav()">申请试用</a>
+</div>
+
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-badge">
+        <div class="hero-badge-pulse"></div>
+        <span class="hero-badge-text">AI 驱动的智能专利预判</span>
+      </div>
+
+      <h1 class="hero-title">
+        让专利判断<br>
+        <span class="hl">更早、更快、更省钱</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        面向科研机构和科技企业<br>
+        先做技术梳理、查新判断和 FTO 风险筛查<br>
+        先看清，再投入
+      </p>
+
+      <div class="hero-actions">
+        <a href="#submit" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          申请试用
+        </a>
+        <a href="#examples" class="btn btn-secondary">查看样例</a>
+      </div>
+
+      <div class="hero-feats">
+        <div class="hero-feat">
+          <div class="hero-feat-check">
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          无需自购专利数据库
+        </div>
+        <div class="hero-feat">
+          <div class="hero-feat-check">
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          低成本启动预判
+        </div>
+        <div class="hero-feat">
+          <div class="hero-feat-check">
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          可选人工复核
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PAIN POINTS
+============================================================ -->
+<section class="pain-section" id="why">
+  <div class="container">
+    <h2 class="pain-heading fade-up">
+      很多专利问题<br>
+      不是做不了<br>
+      而是做得太晚
+    </h2>
+
+    <div class="pain-grid">
+      <div class="pain-card fade-up">
+        <div class="pain-num">01</div>
+        <div class="pain-title">申请前不判断，钱容易花错</div>
+        <div class="pain-desc">技术没有新颖性、方案和现有专利高度重合——这类情况在申请后才发现，费用已经产生，方向已经固化，调整空间极为有限。</div>
+      </div>
+      <div class="pain-card fade-up">
+        <div class="pain-num">02</div>
+        <div class="pain-title">上市前才看 FTO，风险往往已经太晚</div>
+        <div class="pain-desc">产品接近量产或准备出海时才做 FTO，一旦发现侵权风险，要么改设计、要么谈授权，代价已远超早期筛查的成本。</div>
+      </div>
+      <div class="pain-card fade-up">
+        <div class="pain-num">03</div>
+        <div class="pain-title">材料没理顺就往下走，后面只会更贵</div>
+        <div class="pain-desc">技术说明混乱、创新点模糊，直接进入撰写环节，代理人来回问、材料反复改，时间和费用都浪费在沟通摩擦上。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SERVICES
+============================================================ -->
+<section class="section section-alt" id="services">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">核心服务</span>
+      <h2 class="section-title">先把最关键的 3 件事看清楚</h2>
+      <p class="section-subtitle">不用一上来就全流程投入，先做低成本预判，再决定下一步</p>
+    </div>
+
+    <div class="services-grid">
+
+      <!-- 技术交底梳理 -->
+      <div class="svc-card fade-up">
+        <div class="svc-icon svc-icon-blue">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12h6M9 16h4M7 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-2M9 4a2 2 0 002 2h2a2 2 0 002-2M9 4a2 2 0 012-2h2a2 2 0 012 2" stroke="#4F6EF7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="svc-title">技术交底梳理</h3>
+        <p class="svc-desc">先把技术讲清楚。把零散说明、PPT、图纸和想法整理成可继续推进的技术说明，帮你理清核心方案和创新方向。</p>
+        <div class="svc-delivers">
+          <div class="svc-delivers-label">你会得到</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot"></div>技术核心点梳理</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot"></div>创新点提炼</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot"></div>信息缺口提示</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot"></div>下一步建议</div>
+        </div>
+        <a href="#submit" class="btn btn-outline">查看详情</a>
+      </div>
+
+      <!-- 查新判断 -->
+      <div class="svc-card fade-up">
+        <div class="svc-icon svc-icon-green">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="8" stroke="#10B981" stroke-width="1.7"/>
+            <path d="M21 21l-4.35-4.35" stroke="#10B981" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M8 11h6M11 8v6" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="svc-title">查新判断</h3>
+        <p class="svc-desc">先看值不值得申请。判断你的技术和现有公开方案有多近，是否还有申请空间，帮你在大投入之前先拿到一个判断。</p>
+        <div class="svc-delivers">
+          <div class="svc-delivers-label">你会得到</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#10B981"></div>接近方向梳理</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#10B981"></div>主要风险提示</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#10B981"></div>申请空间判断</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#10B981"></div>下一步建议</div>
+        </div>
+        <a href="#submit" class="btn btn-outline" style="color:#10B981;border-color:#10B981">查看详情</a>
+      </div>
+
+      <!-- FTO 风险筛查 -->
+      <div class="svc-card fade-up">
+        <div class="svc-icon svc-icon-amber">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#F59E0B" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" stroke="#F59E0B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="svc-title">FTO 风险筛查</h3>
+        <p class="svc-desc">先筛一轮明显风险。适合上市、量产、合作、出海前，帮你识别高风险模块，确认是否需要做正式 FTO 法律意见。</p>
+        <div class="svc-delivers">
+          <div class="svc-delivers-label">你会得到</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#F59E0B"></div>高风险模块提示</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#F59E0B"></div>重点深查方向</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#F59E0B"></div>是否建议正式 FTO</div>
+          <div class="svc-deliver"><div class="svc-deliver-dot" style="background:#F59E0B"></div>下一步建议</div>
+        </div>
+        <div class="svc-warning">这是前置风险筛查，不是正式法律意见</div>
+        <a href="#submit" class="btn btn-outline" style="color:#F59E0B;border-color:#F59E0B">查看详情</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     COST SAVING
+============================================================ -->
+<section class="section cost-section" id="cost">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="cost-heading fade-up">
+        不是所有项目<br>
+        都值得一上来就重投入
+      </h2>
+      <p class="cost-sub fade-up">先做低成本预判，再决定要不要做正式查新、正式 FTO、正式撰写</p>
+    </div>
+
+    <div class="cost-grid">
+      <div class="cost-card fade-up">
+        <div class="cost-num">01</div>
+        <h3 class="cost-ctitle">不用先买数据库</h3>
+        <p class="cost-cdesc">知域 PatentPro 已整合市面主流付费专利数据库，企业无需重复购买授权，直接提交材料即可启动预判。</p>
+      </div>
+      <div class="cost-card fade-up">
+        <div class="cost-num">02</div>
+        <h3 class="cost-ctitle">让 FTO 可以更早开始</h3>
+        <p class="cost-cdesc">传统 FTO 通常在产品接近落地才启动，此时代价已高。风险筛查可以在研发中期就开始，给你更多调整空间。</p>
+      </div>
+      <div class="cost-card fade-up">
+        <div class="cost-num">03</div>
+        <h3 class="cost-ctitle">把重投入后置</h3>
+        <p class="cost-cdesc">先看清方向值不值、风险有多高，再决定要不要找代理人撰写、委托律所做正式 FTO。没必要的项目先筛掉。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     RESULT PREVIEW
+============================================================ -->
+<section class="section result-section" id="result">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">结果样例</span>
+      <h2 class="section-title">不是几句回复<br>而是一份判断结果</h2>
+      <p class="section-subtitle">重点回答 4 个问题：值不值得做、核心点在哪里、风险点在哪里、下一步做什么</p>
+    </div>
+
+    <div class="result-mock fade-up">
+      <div class="mock-header">
+        <div class="mock-dots">
+          <div class="mock-dot d-r"></div>
+          <div class="mock-dot d-y"></div>
+          <div class="mock-dot d-g"></div>
+        </div>
+        <span class="mock-label">查新判断报告 · 样例</span>
+        <span class="mock-badge">AI 预判结果</span>
+      </div>
+
+      <div class="mock-body">
+        <div class="mock-meta">
+          <span class="mock-meta-item"><strong>项目：</strong>芯片散热动态调控技术</span>
+          <span class="mock-meta-item"><strong>服务类型：</strong>查新判断</span>
+          <span class="mock-meta-item"><strong>出具日期：</strong>2026-03-28</span>
+          <span class="mock-meta-item"><strong>状态：</strong><span style="color:#10B981;font-weight:600">已完成</span></span>
+        </div>
+
+        <div class="result-grid">
+          <div class="r-card">
+            <div class="r-card-label">技术问题</div>
+            <div class="r-card-text">AI 推理负载下芯片热密度分布不均，传统固定功率限制策略响应滞后，导致局部过热与性能损耗并存。</div>
+          </div>
+          <div class="r-card">
+            <div class="r-card-label">核心方案</div>
+            <div class="r-card-text">基于实时热传感阵列数据，动态调整各功能模块的功率分配，结合预测模型在过热发生前介入控制。</div>
+          </div>
+          <div class="r-card">
+            <div class="r-card-label">关键创新点</div>
+            <div class="r-card-text">预测式动态调度 + 模块级精细控制的组合，现有公开方案中多以区域整体调控为主，模块级动态预测组合度较低。</div>
+            <span class="r-tag tag-ok">有申请空间</span>
+          </div>
+          <div class="r-card">
+            <div class="r-card-label">接近风险</div>
+            <div class="r-card-text">英特尔 US11,289,XXX 涉及动态功率限制；ARM CN202XXXXXXX 涉及热预测控制，核心权项与本方案存在相似度，建议关注。</div>
+            <span class="r-tag tag-warn">需关注 2 项</span>
+          </div>
+          <div class="r-card">
+            <div class="r-card-label">信息缺口</div>
+            <div class="r-card-text">预测模型的具体算法和训练数据来源尚未披露，影响申请保护范围判断。建议在撰写前补充技术实现细节。</div>
+            <span class="r-tag tag-risk">需补充材料</span>
+          </div>
+          <div class="r-card">
+            <div class="r-card-label">下一步建议</div>
+            <div class="r-card-text">建议补充算法实现说明后推进正式申请；对英特尔 / ARM 接近项做权项对比分析；创新组合具备一定保护空间。</div>
+            <span class="r-tag tag-ok">建议继续推进</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-footer">
+        <span class="mock-footer-text">本报告为 AI 前置预判结果，仅供内部决策参考，不构成正式法律意见</span>
+        <a href="#examples" class="btn btn-outline" style="font-size:13.5px;padding:10px 18px">查看更多样例</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     AUDIENCE
+============================================================ -->
+<section class="section section-alt" id="audience">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">适用对象</span>
+      <h2 class="section-title">这类团队最需要先做预判</h2>
+      <p class="section-subtitle">知道要做专利，但还没想清楚从哪里下手，或者不确定现在的投入值不值</p>
+    </div>
+
+    <div class="audience-grid">
+      <div class="aud-card fade-up">
+        <div class="aud-avatar av-1">🔬</div>
+        <div>
+          <div class="aud-role">科研机构负责人</div>
+          <div class="aud-pain">科研成果想转化，但不知道哪些技术值得申请、有没有人做过。每年的专利经费有限，投错了方向代价很高。</div>
+        </div>
+      </div>
+      <div class="aud-card fade-up">
+        <div class="aud-avatar av-2">💼</div>
+        <div>
+          <div class="aud-role">科技公司老板</div>
+          <div class="aud-pain">产品即将落地或准备出海，不确定有没有侵权风险，也不知道现在的技术方案还有没有护城河空间。</div>
+        </div>
+      </div>
+      <div class="aud-card fade-up">
+        <div class="aud-avatar av-3">⚙️</div>
+        <div>
+          <div class="aud-role">研发负责人</div>
+          <div class="aud-pain">技术方案还在迭代，想在立项阶段就知道当前方向有没有专利价值，或者是否踩了别人的地。</div>
+        </div>
+      </div>
+      <div class="aud-card fade-up">
+        <div class="aud-avatar av-4">⚖️</div>
+        <div>
+          <div class="aud-role">IP / 法务 / 成果转化负责人</div>
+          <div class="aud-pain">需要对内部项目快速做出优先级判断，手头有多个项目但没有足够资源全部深查，需要低成本的第一轮筛选。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PROCESS
+============================================================ -->
+<section class="section process-section" id="process">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-label">合作流程</span>
+      <h2 class="section-title" style="margin:0 auto 14px">先把材料发过来，我们先看第一轮</h2>
+      <p class="section-subtitle">不用先把材料写完整，也不用先买数据库，有什么先发什么</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step fade-up">
+        <div class="ps-num">1</div>
+        <div>
+          <div class="ps-title">提交材料</div>
+          <div class="ps-desc">方案说明、PPT、图纸、论文、旧专利、竞品资料都可以作为起点，不要求完整</div>
+        </div>
+      </div>
+      <div class="process-step fade-up">
+        <div class="ps-num">2</div>
+        <div>
+          <div class="ps-title">梳理与补问</div>
+          <div class="ps-desc">AI 先做结构梳理，针对信息缺口向你补充提问，确保判断有足够依据</div>
+        </div>
+      </div>
+      <div class="process-step fade-up">
+        <div class="ps-num">3</div>
+        <div>
+          <div class="ps-title">生成预判结果</div>
+          <div class="ps-desc">输出结构化判断报告，覆盖技术问题、创新点、风险提示和信息缺口，通常 3–5 个工作日内完成</div>
+        </div>
+      </div>
+      <div class="process-step fade-up">
+        <div class="ps-num">4</div>
+        <div>
+          <div class="ps-title">决定后续动作</div>
+          <div class="ps-desc">基于判断结果，你来决定是否推进正式查新、正式 FTO 或正式撰写，不做捆绑销售</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     TRUST & BOUNDARY
+============================================================ -->
+<section class="section trust-section" id="trust">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">服务范围</span>
+      <h2 class="section-title">我们能先帮你做到的</h2>
+      <p class="section-subtitle">在正式申请、正式 FTO、正式撰写之前，先用 AI 做一轮低成本、高速度的专利预判</p>
+    </div>
+
+    <div class="trust-items-grid">
+      <div class="trust-item-card">
+        <div class="ti-icon check" style="width:36px;height:36px;margin-bottom:14px">
+          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="tic-title">技术梳理</div>
+        <div class="tic-desc">把零散技术材料整理成结构化说明，讲清核心方案与创新方向</div>
+      </div>
+      <div class="trust-item-card">
+        <div class="ti-icon check" style="width:36px;height:36px;margin-bottom:14px">
+          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="tic-title">查新判断</div>
+        <div class="tic-desc">先筛现有公开方案中与你技术接近的方向，判断是否还有申请空间</div>
+      </div>
+      <div class="trust-item-card">
+        <div class="ti-icon check" style="width:36px;height:36px;margin-bottom:14px">
+          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="tic-title">风险识别</div>
+        <div class="tic-desc">先识别产品落地前最明显的专利侵权风险模块，给出深查方向</div>
+      </div>
+      <div class="trust-item-card">
+        <div class="ti-icon check" style="width:36px;height:36px;margin-bottom:14px">
+          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="tic-title">下一步建议</div>
+        <div class="tic-desc">给出结构化的行动建议，帮你判断值不值得继续投入以及怎么投</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     EXAMPLES
+============================================================ -->
+<section class="section" id="examples">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">样例中心</span>
+      <h2 class="section-title">先看一份样例<br>比听概念更直接</h2>
+      <p class="section-subtitle">三类服务各有对应样例，点进去直接看报告长什么样</p>
+    </div>
+
+    <div class="examples-grid">
+      <div class="ex-card fade-up">
+        <span class="ex-tag">技术交底梳理</span>
+        <div class="ex-title">新能源电池管理系统技术梳理</div>
+        <div class="ex-desc">技术说明混乱、创新点描述不清，经过梳理后形成结构化技术说明，提炼出 3 个核心创新方向，识别 2 处信息缺口。</div>
+        <a href="#" class="btn btn-outline" style="align-self:flex-start;font-size:13.5px;padding:10px 18px">看技术交底梳理样例</a>
+      </div>
+      <div class="ex-card fade-up">
+        <span class="ex-tag" style="background:rgba(16,185,129,0.1);color:#059669">查新判断</span>
+        <div class="ex-title">芯片散热动态调控技术查新判断</div>
+        <div class="ex-desc">基于现有公开方案对比，识别出 2 个接近风险项，判断核心创新组合具备申请空间，给出明确的下一步建议。</div>
+        <a href="#" class="btn btn-outline" style="align-self:flex-start;font-size:13.5px;padding:10px 18px;color:#10B981;border-color:#10B981">看查新判断样例</a>
+      </div>
+      <div class="ex-card fade-up">
+        <span class="ex-tag" style="background:rgba(245,158,11,0.1);color:#B45309">FTO 风险筛查</span>
+        <div class="ex-title">工业机器人控制系统出海前筛查</div>
+        <div class="ex-desc">产品准备进入欧美市场前，识别出 3 个高风险专利模块，给出重点深查方向和是否建议正式 FTO 的判断。</div>
+        <a href="#" class="btn btn-outline" style="align-self:flex-start;font-size:13.5px;padding:10px 18px;color:#F59E0B;border-color:#F59E0B">看 FTO 风险筛查样例</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="section faq-section" id="faq">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-label">常见问题</span>
+      <h2 class="section-title" style="margin:0 auto 14px">先把疑虑看清楚</h2>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">你们和专利代理机构有什么区别</span>
+          <div class="faq-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">
+          <p class="faq-conclusion">我们不是专利代理机构，我们做的是正式工作之前的前置预判。</p>
+          <p>专利代理机构负责撰写申请文件并代理申请流程，工作在你确定要申请之后才真正开始。我们的工作发生在更早阶段——帮你判断值不值得做、怎么做更有价值、有哪些风险需要先看清楚。</p>
+          <p>两者不冲突：预判做完，如果你决定推进，还是要找专业代理机构完成申请。</p>
+          <p class="faq-boundary">本服务用于专利相关前置判断与风险筛查，不构成正式法律意见，正式申请与法律意见仍需专业代理人 / 律师完成。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">为什么说这个方式更省钱</span>
+          <div class="faq-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">
+          <p class="faq-conclusion">省的不只是检索费用，更是在错误方向上的时间和决策成本。</p>
+          <p>正式查新、正式 FTO、正式撰写的费用都不低。如果方向本身就有问题——技术没有新颖性、侵权风险太高、创新点不清——前期越投入，损失就越大。</p>
+          <p>先用低成本预判筛一轮，不值得做的项目早点停，值得做的项目再系统投入，整体投入效率更高。</p>
+          <p class="faq-boundary">本服务费用仅为前置预判阶段的费用，不包括后续正式申请、正式 FTO 等专业法律工作的费用。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">不买专利数据库，也能做吗</span>
+          <div class="faq-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">
+          <p class="faq-conclusion">可以，你不需要购买任何数据库授权。</p>
+          <p>我们的 AI 系统已接入主流专利数据库，你只需要提交技术材料，我们来完成检索和判断。这也是为什么前置预判的成本能大幅低于自建数据库检索的原因之一。</p>
+          <p class="faq-boundary">检索覆盖范围有限，预判结果不能替代完整的正式查新或 FTO 报告。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">FTO 风险筛查是不是正式 FTO</span>
+          <div class="faq-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">
+          <p class="faq-conclusion">不是。这是正式 FTO 之前的前置风险筛查，两者有本质区别。</p>
+          <p>正式 FTO 由专业律师团队完成，覆盖特定司法管辖区内的全量有效专利，可作为法律意见出具，通常费用较高、周期较长。</p>
+          <p>我们做的风险筛查是帮你识别哪些模块有明显风险、是否有必要做正式 FTO。筛查发现风险较低，正式 FTO 可以缩小范围；发现高风险集中区，正式 FTO 可以更有针对性地深查。</p>
+          <p class="faq-boundary">FTO 风险筛查结果不构成正式法律意见，不能作为诉讼或授权谈判的法律依据。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">结果能直接拿去申请吗</span>
+          <div class="faq-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">
+          <p class="faq-conclusion">不能。预判结果是决策参考，不是申请文件。</p>
+          <p>我们输出的是结构化的技术梳理和判断建议，帮你搞清楚方向和风险，不是权利要求书或说明书。正式申请文件需要由有资质的专利代理人按照法定格式撰写并提交。</p>
+          <p>你可以把预判结果作为和代理人沟通的基础材料，帮你们双方更快对齐技术理解和申请策略。</p>
+          <p class="faq-boundary">预判报告不具备法律效力，正式申请文件的撰写和提交须由具有专利代理资质的机构完成。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">材料不完整，也能做吗</span>
+          <div class="faq-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">
+          <p class="faq-conclusion">可以。有什么先发什么，材料不完整不是启动的障碍。</p>
+          <p>方案说明、PPT、一段描述、图纸草稿、论文初稿都可以作为起点。AI 会先做结构梳理，针对关键信息缺口向你补充提问，通过几轮交互把信息完善到可以做判断的程度。</p>
+          <p>越早提交，预判越早开始，你调整方向的窗口也就越大。</p>
+          <p class="faq-boundary">材料越完整，预判结果越准确。信息严重不足时，结果会标注"信息缺口"，建议补充后再做最终决策。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     BETA SIGNUP
+============================================================ -->
+<section class="section submit-section" id="submit">
+  <div class="container">
+    <div class="beta-wrap">
+
+      <div class="beta-badge">
+        <div class="beta-badge-dot"></div>
+        <span class="beta-badge-text">内测进行中</span>
+      </div>
+
+      <h2 class="section-title" style="margin-bottom:12px">产品正在内测<br>现在可以申请试用</h2>
+      <p class="section-subtitle" style="margin:0 auto 40px">留下微信号，我们主动联系你安排体验<br>内测名额有限，先到先得</p>
+
+      <form id="betaForm" onsubmit="handleBetaSubmit(event,'betaBtn','betaForm')" style="display:flex;gap:10px;max-width:440px;margin:0 auto">
+        <input
+          class="beta-input"
+          type="text"
+          id="betaWechat"
+          placeholder="请输入微信号"
+          required
+          autocomplete="off"
+          style="flex:1"
+        />
+        <button type="submit" class="btn btn-primary" id="betaBtn" style="flex-shrink:0;padding:14px 24px">申请试用</button>
+      </form>
+      <p style="margin-top:12px;font-size:12px;color:var(--text-3);text-align:center">1–2 个工作日内通过微信与你联系，安排试用</p>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     BOTTOM CTA
+============================================================ -->
+<section class="bottom-cta">
+  <div class="container">
+    <h2 class="bottom-cta-title">
+      手里有项目<br>
+      现在就可以先看第一轮
+    </h2>
+    <p class="bottom-cta-sub">
+      不用先把材料写完整<br>
+      也不用先买数据库
+    </p>
+    <div class="bottom-cta-actions">
+      <a href="#submit" class="btn btn-primary">申请试用</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     STICKY BOTTOM BANNER
+============================================================ -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-bar-dot"></div>
+  <span class="sticky-bar-text"><strong>产品内测中</strong><span class="hide-mobile"> · 名额有限，先到先得</span></span>
+  <button class="btn btn-primary sticky-bar-btn" onclick="openModal()">申请试用</button>
+</div>
+
+
+<!-- ============================================================
+     TRIAL MODAL
+============================================================ -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()" aria-label="关闭">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+
+    <div class="modal-badge">
+      <div class="modal-badge-dot"></div>
+      <span class="modal-badge-text">内测进行中</span>
+    </div>
+
+    <div class="modal-title">申请产品内测试用</div>
+    <div class="modal-sub">留下微信号，我们 1–2 个工作日内主动联系你<br>安排体验，内测名额有限</div>
+
+    <form id="modalForm" onsubmit="handleBetaSubmit(event, 'modalBtn', 'modalForm')">
+      <div class="modal-input-wrap">
+        <input
+          class="modal-input"
+          type="text"
+          id="modalWechat"
+          placeholder="请输入微信号"
+          required
+          autocomplete="off"
+        />
+      </div>
+      <p class="modal-note">仅用于安排试用联系，不会用于其他用途</p>
+      <button type="submit" class="btn btn-primary btn-modal-submit" id="modalBtn">
+        提交申请
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">知域科技 · PatentPro</div>
+        <div class="footer-copy">© 2026 知域科技 · All rights reserved</div>
+      </div>
+      <div class="footer-disclaimer">
+        本服务用于专利相关前置判断与风险筛查，不构成正式法律意见。<br>
+        正式法律意见与专利申请工作仍需由具备资质的专业代理人 / 律师完成。
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ---------- Header scroll ---------- */
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 16);
+  }, { passive: true });
+
+  /* ---------- Mobile nav ---------- */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  hamburger.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+  });
+
+  function closeMNav() {
+    mobileNav.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-label', '打开菜单');
+  }
+
+  document.addEventListener('click', e => {
+    if (!header.contains(e.target) && !mobileNav.contains(e.target)) {
+      closeMNav();
+    }
+  });
+
+  /* ---------- FAQ accordion ---------- */
+  function toggleFaq(trigger) {
+    const item    = trigger.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  /* ---------- Intersection Observer (fade-up) ---------- */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+  /* ---------- Sticky Bottom Banner ---------- */
+  const stickyBar    = document.getElementById('stickyBar');
+  const submitSection = document.getElementById('submit');
+
+  function updateStickyBar() {
+    const scrollY = window.scrollY;
+    const heroBottom = document.getElementById('home').offsetHeight + 60;
+    /* Hide when the submit section itself is visible */
+    const submitTop  = submitSection.getBoundingClientRect().top;
+    const pastHero   = scrollY > heroBottom;
+    const atSubmit   = submitTop < window.innerHeight * 0.85;
+    stickyBar.classList.toggle('visible', pastHero && !atSubmit);
+  }
+
+  window.addEventListener('scroll', updateStickyBar, { passive: true });
+
+  /* ---------- Modal ---------- */
+  const modalOverlay = document.getElementById('modalOverlay');
+
+  function openModal() {
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      const input = modalOverlay.querySelector('.modal-input');
+      if (input) input.focus();
+    }, 60);
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === modalOverlay) closeModal();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* ---------- Beta form submit (shared by page form + modal) ---------- */
+  function handleBetaSubmit(e, btnId, formId) {
+    e.preventDefault();
+    const btn  = document.getElementById(btnId);
+    const form = document.getElementById(formId);
+
+    btn.disabled = true;
+    btn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+        <path d="M2 8l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      已提交，稍后联系你
+    `;
+    btn.style.background   = '#10B981';
+    btn.style.boxShadow    = '0 8px 28px rgba(16,185,129,0.3)';
+
+    /* If submitted from modal, close it after short delay */
+    if (formId === 'modalForm') {
+      setTimeout(() => closeModal(), 1800);
+    }
+  }
+</script>
+
+</body>
+</html>

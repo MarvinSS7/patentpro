@@ -1043,6 +1043,44 @@
     .beta-note { font-size: 12px; color: var(--text-3); line-height: 1.6; }
 
     /* ============================================================
+       STICKY BOTTOM BANNER
+    ============================================================ */
+    .sticky-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 900;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sticky-bar.visible { transform: translateY(0); }
+
+    .sticky-bar-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #FBBF24; animation: pulse 2.4s infinite; flex-shrink: 0;
+    }
+    .sticky-bar-text {
+      font-size: 14px; color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+    .sticky-bar-text strong { color: var(--white); font-weight: 600; }
+    .sticky-bar-btn {
+      padding: 9px 22px; font-size: 14px;
+      border-radius: 100px; flex-shrink: 0;
+    }
+
+    @media (max-width: 480px) {
+      .sticky-bar { padding: 12px 16px; gap: 12px; }
+      .sticky-bar-text { font-size: 13px; }
+      .sticky-bar-text .hide-mobile { display: none; }
+    }
+
+    /* ============================================================
        TRIAL MODAL
     ============================================================ */
     .modal-overlay {
@@ -2002,7 +2040,7 @@
       </div>
 
       <h2 class="section-title" style="margin-bottom:12px">产品正在内测<br>现在可以申请试用</h2>
-      <p class="section-subtitle" style="margin:0 auto 40px">留下微信号，我们主动联系你安排体验。<strong style="color:#e2e8f0">内测期间免费试用</strong>，无需付费开通。</p>
+      <p class="section-subtitle" style="margin:0 auto 40px">留下微信号，我们主动联系你安排体验。<strong style="color:#e2e8f0">内测期间试用免费</strong>，无需付费开通。</p>
 
       <form id="betaForm" onsubmit="handleBetaSubmit(event,'betaBtn','betaForm')" style="display:flex;gap:10px;max-width:440px;margin:0 auto">
         <input
@@ -2021,6 +2059,16 @@
     </div>
   </div>
 </section>
+
+
+<!-- ============================================================
+     STICKY BOTTOM BANNER
+============================================================ -->
+<div class="sticky-bar" id="stickyBar" role="region" aria-label="申请试用">
+  <div class="sticky-bar-dot" aria-hidden="true"></div>
+  <span class="sticky-bar-text"><strong>产品内测中</strong><span class="hide-mobile"> · 内测期间试用免费</span></span>
+  <button type="button" class="btn btn-primary sticky-bar-btn" onclick="openModal()">申请试用</button>
+</div>
 
 
 <!-- ============================================================
@@ -2219,7 +2267,7 @@
     </div>
 
     <div class="modal-title">申请产品内测试用</div>
-    <div class="modal-sub">留下微信号，我们 1–2 个工作日内主动联系你安排体验。<br>内测期间<strong>免费试用</strong>，无需付费开通。</div>
+    <div class="modal-sub">留下微信号，我们 1–2 个工作日内主动联系你安排体验。<br>内测期间<strong>试用免费</strong>，无需付费开通。</div>
 
     <form id="modalForm" onsubmit="handleBetaSubmit(event, 'modalBtn', 'modalForm')">
       <div class="modal-input-wrap">
@@ -2320,6 +2368,25 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
 
   document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+  /* ---------- Sticky bottom banner ---------- */
+  const stickyBar = document.getElementById('stickyBar');
+  const submitSection = document.getElementById('submit');
+
+  function updateStickyBar() {
+    if (!stickyBar || !submitSection) return;
+    const scrollY = window.scrollY;
+    const hero = document.getElementById('home');
+    const heroBottom = (hero ? hero.offsetHeight : 0) + 60;
+    const submitTop = submitSection.getBoundingClientRect().top;
+    const pastHero = scrollY > heroBottom;
+    const atSubmit = submitTop < window.innerHeight * 0.85;
+    stickyBar.classList.toggle('visible', pastHero && !atSubmit);
+  }
+
+  window.addEventListener('scroll', updateStickyBar, { passive: true });
+  window.addEventListener('resize', updateStickyBar, { passive: true });
+  updateStickyBar();
 
   /* ---------- Modal ---------- */
   const modalOverlay = document.getElementById('modalOverlay');

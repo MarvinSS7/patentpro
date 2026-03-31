@@ -774,8 +774,8 @@
        BETA BANNER
     ============================================================ */
     .submit-section {
-      background: linear-gradient(135deg, #1E2F6B 0%, #0F172A 100%);
-      padding: 72px 0;
+      background: linear-gradient(165deg, #1e293b 0%, #0f172a 42%, #162032 100%);
+      padding: 80px 0;
       position: relative;
       overflow: hidden;
     }
@@ -783,8 +783,73 @@
       content: '';
       position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(67,97,238,0.2) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 60% at 10% 50%, rgba(108,138,255,0.1) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 90% at 85% 20%, rgba(99,102,241,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 70% at 8% 80%, rgba(67,97,238,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 60% at 50% 50%, rgba(15,23,42,0) 0%, rgba(15,23,42,0.65) 100%);
+    }
+
+    .submit-section .beta-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .submit-section .beta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(251,191,36,0.14);
+      border: 1px solid rgba(251,191,36,0.4);
+      border-radius: 100px;
+      padding: 6px 15px;
+      margin-bottom: 20px;
+    }
+    .submit-section .beta-badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #FBBF24;
+      box-shadow: 0 0 0 2px rgba(251,191,36,0.25);
+      animation: pulse 2.4s infinite;
+    }
+    .submit-section .beta-badge-text {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #fef3c7;
+    }
+    .submit-section .section-title {
+      color: #f8fafc !important;
+      letter-spacing: -0.03em;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .submit-section .section-subtitle {
+      color: rgba(226,232,240,0.88) !important;
+      line-height: 1.75;
+    }
+    .submit-section .beta-input {
+      background: #ffffff;
+      border: 1px solid rgba(255,255,255,0.25);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+    .submit-section .beta-input:focus {
+      border-color: #a5b4fc;
+      box-shadow: 0 0 0 3px rgba(129,140,248,0.35), 0 8px 28px rgba(0,0,0,0.15);
+    }
+    .submit-section .btn-primary {
+      background: linear-gradient(180deg, #5b73f5 0%, var(--accent) 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 6px 24px rgba(67,97,238,0.4);
+    }
+    .submit-section .btn-primary:hover {
+      background: linear-gradient(180deg, #6c7ff7 0%, #3d52e4 100%);
+      box-shadow: 0 8px 28px rgba(67,97,238,0.5);
+    }
+    .beta-submit-hint {
+      margin-top: 14px;
+      font-size: 12.5px;
+      color: rgba(203,213,225,0.9) !important;
+      text-align: center;
+      line-height: 1.6;
     }
 
     .beta-banner-inner {
@@ -1154,6 +1219,8 @@
     }
     .footer-brand { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
     .footer-copy  { font-size: 12.5px; color: rgba(255,255,255,0.3); }
+    .footer-copy a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .footer-copy a:hover { color: rgba(255,255,255,0.85); text-decoration: underline; }
     .footer-disclaimer {
       font-size: 12px; color: rgba(255,255,255,0.28);
       max-width: 440px; line-height: 1.65; text-align: right;
@@ -1270,6 +1337,7 @@
         <a href="#services"  class="nav-link">查新判断</a>
         <a href="#services"  class="nav-link">FTO 风险筛查</a>
         <a href="#examples"  class="nav-link">样例结果</a>
+        <a href="https://www.patentpro.net/blog/" class="nav-link">案例与洞察</a>
         <a href="#faq"       class="nav-link">FAQ</a>
       </nav>
 
@@ -1288,6 +1356,7 @@
   <a href="#services"  class="nav-link" onclick="closeMNav()">查新判断</a>
   <a href="#services"  class="nav-link" onclick="closeMNav()">FTO 风险筛查</a>
   <a href="#examples"  class="nav-link" onclick="closeMNav()">样例结果</a>
+  <a href="https://www.patentpro.net/blog/" class="nav-link" onclick="closeMNav()">案例与洞察</a>
   <a href="#faq"       class="nav-link" onclick="closeMNav()">FAQ</a>
   <a href="#submit"    class="btn btn-primary" onclick="closeMNav()">申请试用</a>
 </div>
@@ -1858,7 +1927,7 @@
         />
         <button type="submit" class="btn btn-primary" id="betaBtn" style="flex-shrink:0;padding:14px 24px">申请试用</button>
       </form>
-      <p style="margin-top:12px;font-size:12px;color:var(--text-3);text-align:center">1–2 个工作日内通过微信与你联系，安排试用</p>
+      <p class="beta-submit-hint">1–2 个工作日内通过微信与你联系，安排试用</p>
 
     </div>
   </div>
@@ -2122,7 +2191,7 @@
     <div class="footer-inner">
       <div>
         <div class="footer-brand">知域科技 · PatentPro</div>
-        <div class="footer-copy">© 2026 知域科技 · All rights reserved</div>
+        <div class="footer-copy">© 2026 知域科技 · All rights reserved · <a href="https://www.patentpro.net/blog/">案例与洞察</a></div>
       </div>
       <div class="footer-disclaimer">
         本服务用于专利相关前置判断与风险筛查，不构成正式法律意见。<br>

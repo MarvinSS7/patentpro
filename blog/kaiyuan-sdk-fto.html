@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="开源许可证与专利风险：引入 SDK 与热门库后仍可能落入第三方专利示意场景，FTO 前置筛查关注点。" />
+  <title>开源库与隐性专利风险示意 · PatentPro</title>
+  <link rel="canonical" href="https://www.patentpro.net/blog/kaiyuan-sdk-fto.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="common.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"开源库与隐性专利风险示意","datePublished":"2026-03-31","author":{"@type":"Organization","name":"知域科技"},"publisher":{"@type":"Organization","name":"知域科技"}}
+  </script>
+</head>
+<body>
+  <header class="blog-top">
+    <a href="https://www.patentpro.net/" class="blog-top-brand">知域科技 · PatentPro</a>
+    <nav class="blog-top-nav"><a href="index.html">文章列表</a><a href="https://www.patentpro.net/#submit">申请试用</a></nav>
+  </header>
+
+  <article class="blog-article">
+    <h1>集成了热门开源库，为什么还会在 FTO 里翻车？（许可 ≠ 专利）</h1>
+    <div class="blog-meta">开源合规 · FTO · 综合示意</div>
+
+    <p class="blog-lead">工程师看 SPDX 和 LICENSE 很认真，却漏掉一句行业老话：<strong>许可证管的是版权使用条件，管不了第三人专利</strong>。下面这个软件 + 硬件接口的示意场景，常在 B 轮前后被翻出来。</p>
+
+    <h2>示意案情：MIT 许可的库，撞上硬件握手专利族</h2>
+    <p>某 AIoT 设备用 MIT 协议推理栈，团队法务认为「生态干净」。产品上量产时，竞争对手主张其<strong>低功耗唤醒总线上的时序协商</strong>落入两件专利的权利要求——与模型权重无关，与开源许可证也无关，来自<strong>整机行为</strong>的组合。</p>
+
+    <h2>怎么提前想到这一类问题</h2>
+    <p>在 BOM 与软件栈冻结前，把「设备上真实发生的行为」拆成特征：谁唤醒谁、在什么功耗档握手、与传感器驱动如何耦合。再用<strong>语义化风险筛</strong>去找「用语不同但行为类似」的专利簇——这正是许多团队在传统关键字 FTO 里漏掉的一层，参见 <a href="fto-leiqu-chuhai-anli.html">FTO 盲区</a>。</p>
+
+    <div class="blog-callout"><strong>PatentPro FTO 风险筛查</strong>可作为「第一轮行为—专利语言对齐」的辅助；律师的全量比照与无效分析仍是刚需。</div>
+
+    <div class="blog-cta">
+      <h3>产品栈里有「说不清的第三方模块」？</h3>
+      <a class="btn" href="https://www.patentpro.net/#submit">申请前置筛查体验</a>
+    </div>
+
+    <div class="blog-related">
+      <h3>相关阅读</h3>
+      <p><a href="zhongmei-zhuanxie-bikeng.html">出海撰写差异</a> · <a href="index.html">案例列表</a></p>
+    </div>
+
+    <p class="blog-footnote">本文为普适示意，不构成对任何开源项目的合规或专利结论。</p>
+  </article>
+</body>
+</html>
